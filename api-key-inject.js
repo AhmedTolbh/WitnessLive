@@ -69,8 +69,14 @@
       window.process.env.GEMINI_API_KEY = apiKey;
       
       // Hide setup screen and show main app
-      document.getElementById('api-key-setup').style.display = 'none';
-      document.getElementById('root').style.display = 'block';
+      const setupScreen = document.getElementById('api-key-setup');
+      const mainApp = document.getElementById('root');
+      if (setupScreen) {
+        setupScreen.style.display = 'none';
+      }
+      if (mainApp) {
+        mainApp.style.display = 'block';
+      }
       
       // Reload the page to initialize the app with the API key
       window.location.reload();

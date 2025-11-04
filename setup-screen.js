@@ -9,15 +9,6 @@
       saveButton.addEventListener('click', () => {
         window.saveApiKeyFromSetup();
       });
-      
-      // Handle hover effects
-      saveButton.addEventListener('mouseover', () => {
-        saveButton.classList.add('hover');
-      });
-      
-      saveButton.addEventListener('mouseout', () => {
-        saveButton.classList.remove('hover');
-      });
     }
     
     if (apiKeyInput) {
