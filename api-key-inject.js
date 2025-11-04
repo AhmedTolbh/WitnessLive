@@ -11,19 +11,58 @@
       }
       window.process.env.API_KEY = result.geminiApiKey;
       window.process.env.GEMINI_API_KEY = result.geminiApiKey;
+      
+      // Hide the API key setup screen if it exists
+      const setupScreen = document.getElementById('api-key-setup');
+      if (setupScreen) {
+        setupScreen.style.display = 'none';
+      }
+      const mainApp = document.getElementById('root');
+      if (mainApp) {
+        mainApp.style.display = 'block';
+      }
     } else {
-      // No API key found, show error
-      console.error('No Gemini API key found. Please configure it in the extension options.');
-      setTimeout(() => {
-        if (confirm('No Gemini API key configured. Would you like to open the settings page?')) {
-          try {
-            chrome.runtime.openOptionsPage();
-          } catch (error) {
-            console.error('Failed to open options page:', error);
-            alert('Please right-click the extension icon and select "Options" to configure your API key.');
-          }
-        }
-      }, 500);
+      // No API key found, show setup screen
+      console.log('No Gemini API key found. Showing setup screen.');
+      const mainApp = document.getElementById('root');
+      if (mainApp) {
+        mainApp.style.display = 'none';
+      }
+      const setupScreen = document.getElementById('api-key-setup');
+      if (setupScreen) {
+        setupScreen.style.display = 'flex';
+      }
     }
   });
+  
+  // Function to save API key from the setup screen
+  window.saveApiKeyFromSetup = function() {
+    const apiKeyInput = document.getElementById('setup-api-key');
+    const errorMsg = document.getElementById('setup-error');
+    const apiKey = apiKeyInput.value.trim();
+    
+    if (!apiKey) {
+      errorMsg.textContent = 'Please enter your Gemini API key';
+      errorMsg.style.display = 'block';
+      return;
+    }
+    
+    // Save to Chrome storage
+    chrome.storage.sync.set({ geminiApiKey: apiKey }, () => {
+      // Inject the API key immediately
+      window.GEMINI_API_KEY = apiKey;
+      if (!window.process) {
+        window.process = { env: {} };
+      }
+      window.process.env.API_KEY = apiKey;
+      window.process.env.GEMINI_API_KEY = apiKey;
+      
+      // Hide setup screen and show main app
+      document.getElementById('api-key-setup').style.display = 'none';
+      document.getElementById('root').style.display = 'block';
+      
+      // Reload the page to initialize the app with the API key
+      window.location.reload();
+    });
+  };
 })();
