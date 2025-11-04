@@ -16,7 +16,12 @@
       console.error('No Gemini API key found. Please configure it in the extension options.');
       setTimeout(() => {
         if (confirm('No Gemini API key configured. Would you like to open the settings page?')) {
-          chrome.runtime.openOptionsPage();
+          try {
+            chrome.runtime.openOptionsPage();
+          } catch (error) {
+            console.error('Failed to open options page:', error);
+            alert('Please right-click the extension icon and select "Options" to configure your API key.');
+          }
         }
       }, 500);
     }
