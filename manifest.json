@@ -25,7 +25,7 @@
   },
   "options_page": "options.html",
   "content_security_policy": {
-    "extension_pages": "script-src 'self' https://cdn.tailwindcss.com https://aistudiocdn.com; object-src 'self'"
+    "extension_pages": "script-src 'self' https://aistudiocdn.com; object-src 'self'"
   },
   "web_accessible_resources": [
     {
