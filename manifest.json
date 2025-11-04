@@ -3,7 +3,7 @@
   "name": "WitnessLive",
   "version": "1.0",
   "description": "An AI-powered assistant that witnesses your screen in real-time to help you solve problems, debug code, and understand errors.",
-  "permissions": [],
+  "permissions": ["storage"],
   "host_permissions": [
     "https://generativelanguage.googleapis.com/"
   ],
@@ -23,6 +23,7 @@
   "background": {
     "service_worker": "background.js"
   },
+  "options_page": "options.html",
   "content_security_policy": {
     "extension_pages": "script-src 'self' https://cdn.tailwindcss.com https://aistudiocdn.com; object-src 'self'"
   },

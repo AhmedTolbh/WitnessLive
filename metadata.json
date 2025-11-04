@@ -1,9 +1,0 @@
-{
-  "name": "Copy of WitnessLive",
-  "description": "An AI-powered assistant that witnesses your screen in real-time to help you solve problems, debug code, and understand errors.",
-  "requestFramePermissions": [
-    "microphone",
-    "camera",
-    "display-capture"
-  ]
-}
