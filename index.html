@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>WitnessLive</title>
     <script src="api-key-inject.js"></script>
+  <script src="setup-screen.js"></script>
 
 <style>
   html, body {
@@ -60,6 +61,119 @@
     transform: translate(-50%, -50%); /* Center the marker on the coordinate */
     animation: pulse 1.5s ease-in-out infinite;
   }
+
+  /* API Key Setup Screen Styles */
+  .setup-screen {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #0f172a;
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  .setup-container {
+    max-width: 500px;
+    padding: 40px;
+    background-color: #1e293b;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+
+  .setup-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .setup-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 20px;
+    color: #9333ea;
+  }
+
+  .setup-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #e2e8f0;
+    margin-bottom: 10px;
+  }
+
+  .setup-subtitle {
+    color: #94a3b8;
+    font-size: 14px;
+  }
+
+  .setup-form {
+    margin-bottom: 20px;
+  }
+
+  .setup-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #cbd5e1;
+  }
+
+  .setup-input {
+    width: 100%;
+    padding: 12px;
+    background-color: #0f172a;
+    border: 1px solid #475569;
+    border-radius: 8px;
+    color: #e2e8f0;
+    font-size: 14px;
+    box-sizing: border-box;
+  }
+
+  .setup-error {
+    display: none;
+    color: #ef4444;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+
+  .setup-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #9333ea;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+
+  .setup-button:hover {
+    background-color: #7e22ce;
+  }
+
+  .setup-info {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #0f172a;
+    border-radius: 6px;
+    font-size: 12px;
+    color: #94a3b8;
+    line-height: 1.5;
+  }
+
+  .setup-info strong {
+    color: #cbd5e1;
+  }
+
+  .setup-info a {
+    color: #9333ea;
+    text-decoration: none;
+  }
 </style>
   <script type="importmap">
 {
@@ -75,40 +189,34 @@
 </head>
   <body class="bg-slate-900 text-slate-200">
     <!-- API Key Setup Screen (shown on first launch) -->
-    <div id="api-key-setup" style="display: none; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background-color: #0f172a; z-index: 10000; align-items: center; justify-content: center; flex-direction: column;">
-      <div style="max-width: 500px; padding: 40px; background-color: #1e293b; border-radius: 12px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);">
-        <div style="text-align: center; margin-bottom: 30px;">
-          <svg style="width: 64px; height: 64px; margin: 0 auto 20px; color: #9333ea;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <div id="api-key-setup" class="setup-screen">
+      <div class="setup-container">
+        <div class="setup-header">
+          <svg class="setup-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
           </svg>
-          <h1 style="font-size: 24px; font-weight: bold; color: #e2e8f0; margin-bottom: 10px;">Welcome to WitnessLive</h1>
-          <p style="color: #94a3b8; font-size: 14px;">Enter your Gemini API key to get started</p>
+          <h1 class="setup-title">Welcome to WitnessLive</h1>
+          <p class="setup-subtitle">Enter your Gemini API key to get started</p>
         </div>
         
-        <div style="margin-bottom: 20px;">
-          <label for="setup-api-key" style="display: block; margin-bottom: 8px; font-size: 14px; font-weight: 500; color: #cbd5e1;">Gemini API Key</label>
+        <div class="setup-form">
+          <label for="setup-api-key" class="setup-label">Gemini API Key</label>
           <input 
             type="text" 
             id="setup-api-key" 
+            class="setup-input"
             placeholder="Enter your API key here"
-            style="width: 100%; padding: 12px; background-color: #0f172a; border: 1px solid #475569; border-radius: 8px; color: #e2e8f0; font-size: 14px; box-sizing: border-box;"
-            onkeypress="if(event.key === 'Enter') saveApiKeyFromSetup()"
           />
-          <p id="setup-error" style="display: none; color: #ef4444; font-size: 12px; margin-top: 8px;"></p>
+          <p id="setup-error" class="setup-error"></p>
         </div>
         
-        <button 
-          onclick="saveApiKeyFromSetup()" 
-          style="width: 100%; padding: 12px; background-color: #9333ea; color: white; border: none; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background-color 0.2s;"
-          onmouseover="this.style.backgroundColor='#7e22ce'" 
-          onmouseout="this.style.backgroundColor='#9333ea'"
-        >
+        <button id="setup-save-button" class="setup-button">
           Save and Continue
         </button>
         
-        <div style="margin-top: 20px; padding: 12px; background-color: #0f172a; border-radius: 6px; font-size: 12px; color: #94a3b8; line-height: 1.5;">
-          <strong style="color: #cbd5e1;">Don't have an API key?</strong><br>
-          Get one for free at: <a href="https://aistudio.google.com/app/apikey" target="_blank" style="color: #9333ea; text-decoration: none;">aistudio.google.com/app/apikey</a>
+        <div class="setup-info">
+          <strong>Don't have an API key?</strong><br>
+          Get one for free at: <a href="https://aistudio.google.com/app/apikey" target="_blank">aistudio.google.com/app/apikey</a>
         </div>
       </div>
     </div>
